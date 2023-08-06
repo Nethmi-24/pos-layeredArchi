@@ -6,9 +6,11 @@ package supermarketlayered.view;
 
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import supermarketlayered.controller.customerController;
 import supermarketlayered.dto.CustomerDto;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +24,7 @@ public class customerPanel extends javax.swing.JPanel {
     public customerPanel() {
         customerController = new customerController();
         initComponents();
+        loadAllCustomers();
     }
 
     /**
@@ -350,5 +353,54 @@ saveCustomer();
         custCityText.setText("");
         custProvinceText.setText("");
         custPostalCodeText.setText("");
+    }
+         private void loadAllCustomers() {
+        
+     try {
+         String[] collumns = {"Id", "Name", "Address", "Salary", "Postal Code"};
+         DefaultTableModel dtm = new DefaultTableModel(collumns, 0) {
+             @Override
+             public boolean isCellEditable(int row, int column) {
+                 return false;
+             }
+         };
+         customerTable.setModel(dtm);
+         
+         ArrayList<CustomerDto> customers = customerController.getAllCustomers();
+         
+         for (CustomerDto customer : customers) {
+             Object[] rowData = {customer.getId(), customer.getTitle() + " " + customer.getName(), customer.getAddress() + ", " + customer.getCity(), customer.getSalary(), customer.getZip()};
+             dtm.addRow(rowData);
+         }
+     } catch (Exception ex) {
+         java.util.logging.Logger.getLogger(customerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     }
+      
+    }
+
+    private void searchCustomer() {
+        
+     try {
+         String custId = customerTable.getValueAt(customerTable.getSelectedRow(), 0).toString();
+         CustomerDto customerDto = customerController.searchCustomer(custId);
+         
+         if (customerDto != null) {
+             custIdText.setText(customerDto.getId());
+             custTitleText.setText(customerDto.getTitle());
+             custNameText.setText(customerDto.getName());
+             custDobText.setText(customerDto.getDob());
+             custSalaryText.setText(Double.toString(customerDto.getSalary()));
+             custAddressText.setText(customerDto.getAddress());
+             custCityText.setText(customerDto.getCity());
+             custProvinceText.setText(customerDto.getProvince());
+             custPostalCodeText.setText(customerDto.getZip());
+         } else {
+             JOptionPane.showMessageDialog(this, "Customer Not Found");
+         }
+     } catch (Exception ex) {
+         java.util.logging.Logger.getLogger(customerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     }
+
+
     }
 }
