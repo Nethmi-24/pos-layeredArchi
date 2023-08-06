@@ -12,7 +12,6 @@ import supermarketlayered.service.custom.CustomerService;
  * @author Nethmi
  */
 public class CustomerServiceImpl implements CustomerService {
-    @Override
     public String addCustomer(CustomerDto customerDto)throws Exception{
         return null;
     }

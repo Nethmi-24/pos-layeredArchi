@@ -4,6 +4,10 @@
  */
 package supermarketlayered.view;
 
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import javax.swing.JOptionPane;
+import supermarketlayered.controller.customerController;
 import supermarketlayered.dto.CustomerDto;
 
 /**
@@ -11,11 +15,12 @@ import supermarketlayered.dto.CustomerDto;
  * @author Nethmi
  */
 public class customerPanel extends javax.swing.JPanel {
-
+ private customerController customerController;
     /**
      * Creates new form customerPanel
      */
     public customerPanel() {
+        customerController = new customerController();
         initComponents();
     }
 
@@ -314,16 +319,36 @@ saveCustomer();
     // End of variables declaration//GEN-END:variables
 
     private void saveCustomer() {
-                    CustomerDto customer = new CustomerDto(
-                    custIdText.getText(),
-                    custTitleText.getText(),
-                    custNameText.getText(),
-                    custDobText.getText(),
-                    Double.parseDouble(custSalaryText.getText()),
-                    custAddressText.getText(),
-                    custCityText.getText(),
-                    custProvinceText.getText(),
-                    custPostalCodeText.getText());
-        
+     try {
+         CustomerDto customer = new CustomerDto(
+                 custIdText.getText(),
+                 custTitleText.getText(),
+                 custNameText.getText(),
+                 custDobText.getText(),
+                 Double.parseDouble(custSalaryText.getText()),
+                 custAddressText.getText(),
+                 custCityText.getText(),
+                 custProvinceText.getText(),
+                 custPostalCodeText.getText());
+         
+         String resp = customerController.saveCustomer(customer);
+         JOptionPane.showMessageDialog(this, resp);
+         clear();
+     } catch (Exception ex) {
+         java.util.logging.Logger.getLogger(customerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+     }
+
+       
+    }
+        private void clear() {
+        custIdText.setText("");
+        custTitleText.setText("");
+        custNameText.setText("");
+        custDobText.setText("");
+        custSalaryText.setText("");
+        custAddressText.setText("");
+        custCityText.setText("");
+        custProvinceText.setText("");
+        custPostalCodeText.setText("");
     }
 }

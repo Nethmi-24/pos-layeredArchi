@@ -12,6 +12,6 @@ import supermarketlayered.service.SuperService;
  * @author Nethmi
  */
 public interface CustomerService extends SuperService{
- public String addCustomer(CustomerDto customerDto)throws Exception;
+public String addCustomer(CustomerDto customerDto)throws Exception;
  
 }

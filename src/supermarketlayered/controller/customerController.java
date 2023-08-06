@@ -4,12 +4,19 @@
  */
 package supermarketlayered.controller;
 
+import supermarketlayered.dto.CustomerDto;
+import supermarketlayered.service.ServiceFactory;
+import supermarketlayered.service.custom.CustomerService;
+import supermarketlayered.service.custom.impl.CustomerServiceImpl;
+
 /**
  *
  * @author Nethmi
  */
 public class customerController {
-    public String saveCustomer(){
-    return null;    
+ private CustomerService customerService = (CustomerService) ServiceFactory.getInstance().getService(ServiceFactory.serviceType.CUSTOMER);
+    
+    public String saveCustomer(CustomerDto customerDto) throws Exception{
+        return customerService.addCustomer(customerDto);
     }
 }
